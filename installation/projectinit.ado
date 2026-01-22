@@ -1193,36 +1193,33 @@ program define projectinit_github_enhanced
 
     * Try to use GitHub CLI
     di as text "  Creating GitHub repository..."
+
+    * Build the correct gh command
     if "`visibility'" == "private" {
-        capture shell gh repo create "`projname'" --`visibility' --source=. --remote=origin
+        capture shell gh repo create "`projname'" --private --source=. --push
     }
     else {
-        capture shell gh repo create "`projname'" --public --source=. --remote=origin
+        capture shell gh repo create "`projname'" --public --source=. --push
     }
 
     local gh_failed = _rc
 
     if `gh_failed' {
-        di as error "  GitHub CLI (gh) not available in PATH."
+        di as error "  GitHub CLI (gh) not available or authentication failed."
         di as text "  Repository created locally with Git."
         di as text ""
         di as text "  {bf:To sync with GitHub:}"
-        di as text "  1. Create repository manually at https://github.com/new"
-        di as text "  2. Run these commands:"
+        di as text "  1. Check GitHub CLI authentication: gh auth login"
+        di as text "  2. Or create repository manually at https://github.com/new"
+        di as text "  3. Then run these commands:"
         di as text `"     cd "`path'""'
         di as text "     git remote add origin https://github.com/YOUR_USERNAME/`projname'.git"
+        di as text "     git branch -M main"
         di as text "     git push -u origin main"
         di as text ""
-        di as text "  Or install GitHub CLI: https://cli.github.com/"
+        di as text "  Install GitHub CLI from: https://cli.github.com/"
         quietly cd `"`olddir'"'
         exit 0
-    }
-
-    * Push to GitHub
-    di as text "  Pushing to GitHub..."
-    capture shell git push -u origin main
-    if _rc {
-        capture shell git push -u origin master
     }
 
     * Return to original directory
