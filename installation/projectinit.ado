@@ -338,15 +338,15 @@ program define projectinit, rclass
     di as txt "{bf:Location:} {it:`mainpath'}"
     di as txt ""
     di as txt "{bf:Next Steps:}"
-    di as txt "  {bf:1.} Navigate: {it:cd \"`mainpath'\"}"
-    di as txt "  {bf:2.} Review:   {it:doedit run.do}"
-    di as txt "  {bf:3.} Execute:  {it:do run.do}"
+    di as txt `"  {bf:1.} Navigate: cd "`mainpath'""'
+    di as txt "  {bf:2.} Review:   doedit run.do"
+    di as txt "  {bf:3.} Execute:  do run.do"
     if "`latex'" != "none" {
-        di as txt "  {bf:4.} LaTeX:    Import {it:04_Writing/} to Overleaf"
-        di as txt "             {browse \"https://www.overleaf.com/project\":https://www.overleaf.com/project}"
+        di as txt "  {bf:4.} LaTeX:    Import 04_Writing/ to Overleaf"
+        di as txt `"             {browse "https://www.overleaf.com/project":https://www.overleaf.com/project}"'
     }
     if "`github'" != "none" {
-        di as txt "  {bf:5.} GitHub:   {it:gh repo view --web}"
+        di as txt "  {bf:5.} GitHub:   gh repo view --web"
     }
     di as txt ""
     di as txt "{bf:Documentation:}"
