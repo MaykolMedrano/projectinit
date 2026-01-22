@@ -1,7 +1,0 @@
-v 3
-d projectinit - Professional Stata Project Structure Initializer
-d Author: Maykol Medrano
-d Email: mmedrano2@uc.cl
-d URL: https://github.com/MaykolMedrano/projectinit
-d Distribution-Date: 20251211
-p projectinit Professional Stata project structure initializer (AEA/JPAL/MIT standard)
