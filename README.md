@@ -1,321 +1,258 @@
-# projectinit
+# projectinit v2.1 Enterprise
 
 **Professional Stata Project Structure Initializer**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Stata](https://img.shields.io/badge/Stata-14%2B-blue)](https://www.stata.com/)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/MaykolMedrano/projectinit)
 
-A Stata package that creates standardized, reproducible research project structures following **AEA** (American Economic Association), **JPAL** (Abdul Latif Jameel Poverty Action Lab), and **MIT** best practices.
+> One-click reproducible research infrastructure following **J-PAL (MIT)**, **DIME (World Bank)**, and **AEA Data Editor** standards. Includes LaTeX integration, GitHub automation, and bilingual support optimized for Chilean/Peruvian microdata research.
+
+**Author**: Maykol Medrano | **Email**: mmedrano2@uc.cl | **GitHub**: [@MaykolMedrano](https://github.com/MaykolMedrano)
 
 ---
 
-## 🎯 Features
+## 📋 Table of Contents
 
-- **One-command setup**: Create complete project structure instantly
-- **AEA/JPAL/MIT standards**: Follows journal reproducibility requirements
-- **Automated configuration**: Generates all necessary config files and templates
-- **Replication-ready**: Optional replication package generation
-- **Cross-platform**: Works on Windows, macOS, and Linux
-- **Well-documented**: Comprehensive help files and README templates
+- [Features](#-features)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [Usage Examples](#-usage-examples)
+- [Project Structure](#-project-structure)
+- [Command Reference](#-command-reference)
+- [Testing](#-testing)
+- [Workflow Guide](#-workflow-guide)
+- [Best Practices](#-best-practices)
+- [Version History](#-version-history)
+- [Contributing](#-contributing)
+- [Citation](#-citation)
+- [Support](#-support)
+
+---
+
+## 🌟 Features
+
+### v2.1 Enterprise Highlights
+
+- ✅ **J-PAL/DIME/AEA Standards**: Numbered folders (01_Data, 02_Scripts, 03_Outputs)
+- ✅ **LaTeX Integration**: PUC thesis and standard templates with automatic macro generation
+- ✅ **GitHub Automation**: One-command repository creation and deployment
+- ✅ **Bilingual Support**: Full English/Spanish interfaces
+- ✅ **Microdata Ready**: Pre-configured for CASEN, ENAHO, BCRP data
+- ✅ **Dynamic Paths**: Portable projects using `c(pwd)`
+- ✅ **Professional UX**: SMCL-formatted output with progress indicators
+- ✅ **Security**: Input validation and path traversal protection
+- ✅ **Cross-Platform**: Windows, macOS, Linux compatible
+
+### What Gets Created
+
+```
+YourProject/
+├── run.do                    # Master execution script
+├── README.md                 # Project documentation
+├── .gitignore               # Git configuration
+├── 01_Data/
+│   ├── Raw/                 # Original, immutable data
+│   ├── De-identified/       # Anonymized data
+│   ├── Intermediate/        # Processed data
+│   └── Final/               # Analysis-ready datasets
+├── 02_Scripts/
+│   ├── Ados/                # Custom programs
+│   ├── Data_Preparation/    # Cleaning scripts
+│   ├── Analysis/            # Main analysis
+│   └── Validation/          # Robustness checks
+├── 03_Outputs/
+│   ├── Tables/              # LaTeX/CSV tables
+│   ├── Figures/             # PDF/PNG figures
+│   ├── Logs/                # Execution logs
+│   └── Raw_Outputs/         # Unformatted results
+├── 04_Writing/              # LaTeX manuscript (if latex() used)
+│   ├── main.tex
+│   ├── preamble.tex
+│   ├── macros.tex           # Auto-generated from Stata
+│   └── sections/
+├── 05_Doc/                  # Documentation
+│   ├── Codebooks/
+│   ├── Questionnaires/
+│   └── IRB/
+└── 06_Replication/          # AEA-compliant package (if replicate used)
+```
 
 ---
 
 ## 📦 Installation
 
-### Option 1: Direct Installation (Recommended)
+### Option 1: Net Install (Recommended)
+
+Once published on GitHub:
 
 ```stata
-* Install from GitHub (once published)
 net install projectinit, from("https://raw.githubusercontent.com/MaykolMedrano/projectinit/main/")
 ```
 
-### Option 2: Manual Installation
+### Option 2: Direct from Repository
 
-1. Download the repository files
-2. Copy `projectinit.ado` and `projectinit.sthlp` to your Stata ado directory:
-   - **Windows**: `C:\ado\plus\p\`
-   - **Mac**: `~/Library/Application Support/Stata/ado/plus/p/`
-   - **Linux**: `~/.stata/ado/plus/p/`
-
-3. Verify installation:
 ```stata
+* Clone or download repository
+adopath + "C:/path/to/projectinit"
+
+* Verify installation
 which projectinit
 help projectinit
 ```
 
-### Option 3: Local Installation
+### Option 3: Manual Installation
 
-```stata
-* From the projectinit directory
-cd "C:/path/to/projectinit"
-do projectinit_install.do
-```
+1. Download `projectinit.ado` and `projectinit.sthlp`
+2. Copy to your Stata ado directory:
+   - **Windows**: `C:\ado\plus\p\`
+   - **Mac**: `~/Library/Application Support/Stata/ado/plus/p/`
+   - **Linux**: `~/.stata/ado/plus/p/`
 
 ---
 
 ## 🚀 Quick Start
 
-### Basic Usage
+### Basic Project
 
 ```stata
-projectinit "MyProject", root("C:/Research")
+projectinit "MyResearch", root("C:/Research")
 ```
 
-This creates:
-```
-C:/Research/MyProject/
-├── _config.do
-├── master.do
-├── run_all.do
-├── README.md
-├── .gitignore
-├── 00_docs/
-├── 01_data/
-│   ├── raw/
-│   ├── external/
-│   ├── intermediate/
-│   └── final/
-├── 02_code/
-│   ├── 00_setup/
-│   ├── 01_cleaning/
-│   ├── 02_analysis/
-│   ├── 03_figures/
-│   └── 04_tables/
-├── 03_output/
-│   ├── figures/
-│   ├── tables/
-│   └── logs/
-├── temp/
-└── data_backup/
-```
-
-### With Replication Package
+### With LaTeX and Replication
 
 ```stata
-projectinit "MyProject", root("C:/Research") replicate
+projectinit "PhD_Dissertation", ///
+    root("C:/Research") ///
+    lang(en) ///
+    latex(puc) ///
+    author("Maykol Medrano") ///
+    replicate ///
+    verbose
 ```
 
-Adds:
-```
-04_replication/
-├── code/
-├── data/
-├── output/
-├── replication.do
-└── README_REPLICATION.md
+### Spanish Interface with GitHub
+
+```stata
+projectinit "Tesis_Economia", ///
+    root("C:/Investigacion") ///
+    lang(es) ///
+    latex(standard) ///
+    github(private) ///
+    author("Maykol Medrano") ///
+    email("mmedrano2@uc.cl")
 ```
 
 ---
 
 ## 📚 Usage Examples
 
-### Example 1: Standard Research Project
+### Example 1: Impact Evaluation Project
 
 ```stata
-* Create project
-projectinit "ImpactEvaluation", root("D:/Projects")
+* Create project with full features
+projectinit "ImpactEval_RCT", ///
+    root("D:/Projects") ///
+    lang(en) ///
+    latex(standard) ///
+    github(public) ///
+    author("Maykol Medrano") ///
+    replicate ///
+    verbose
 
 * Navigate and start working
-cd "D:/Projects/ImpactEvaluation"
+cd "D:/Projects/ImpactEval_RCT"
 
-* Edit configuration
-doedit _config.do
+* Place raw data
+copy "C:/RawData/survey.dta" "01_Data/Raw/"
 
-* Run project
-do master.do
+* Run master script (installs packages, executes all)
+do run.do
 ```
 
-### Example 2: Project with Replication Package
+### Example 2: Chilean Microdata Analysis
 
 ```stata
-* Create project with replication structure
-projectinit "ClimatePolicy", root("C:/Research") replicate verbose
+* Project optimized for CASEN data
+projectinit "Pobreza_Chile_2024", ///
+    root("C:/Investigacion") ///
+    lang(es) ///
+    latex(standard) ///
+    author("Maykol Medrano")
 
-* Check what was created
-cd "C:/Research/ClimatePolicy"
+* The generated run.do includes pre-configured CASEN packages:
+* - usecasen
+* - fixencoding
+* - datadex
+```
+
+### Example 3: Quick Test
+
+```stata
+* Test installation
+projectinit "QuickTest", root("C:/Temp") verbose
+
+* Verify structure
+cd "C:/Temp/QuickTest"
 dir
-```
-
-### Example 3: Overwrite Existing Project
-
-```stata
-* Recreate project structure
-projectinit "OldProject", root("C:/Research") overwrite
-```
-
-### Example 4: Linux/Mac Usage
-
-```stata
-projectinit "RCT_Analysis", root("/home/user/research")
 ```
 
 ---
 
-## 📖 Project Structure Explained
-
-### Main Directories
-
-| Directory | Purpose |
-|-----------|---------|
-| `00_docs/` | Documentation, papers, presentations |
-| `01_data/` | All data files (organized by processing stage) |
-| `02_code/` | All analysis code (organized by stage) |
-| `03_output/` | Generated figures, tables, and logs |
-| `04_replication/` | Self-contained replication package (optional) |
-| `temp/` | Temporary files (not tracked by git) |
-| `data_backup/` | Backup location for important data |
+## 🏗️ Project Structure
 
 ### Data Workflow
 
 ```
-raw/ → cleaning → intermediate/ → analysis → final/
+Raw → De-identified → Intermediate → Final
 ```
 
-- **raw/**: Original, immutable data files
-- **external/**: Data from external sources
-- **intermediate/**: Cleaned and processed data
-- **final/**: Final datasets used in analysis
+- **Raw/**: Original data (never modified)
+- **De-identified/**: Anonymized datasets
+- **Intermediate/**: Cleaned, processed data
+- **Final/**: Analysis-ready datasets
 
 ### Code Workflow
 
 ```
-00_setup → 01_cleaning → 02_analysis → 03_figures → 04_tables
+Data_Preparation → Analysis → Validation
 ```
 
-Each stage has its own folder with template do-files.
+### LaTeX Integration (if `latex()` used)
 
-### Key Files
-
-| File | Purpose |
-|------|---------|
-| `_config.do` | Global paths configuration (edit this first!) |
-| `master.do` | Main execution file with manual control |
-| `run_all.do` | Automated execution of all scripts |
-| `00_setup.do` | Environment setup and package installation |
-
----
-
-## 🔧 Configuration
-
-### 1. Update Paths
-
-After creating a project, edit `_config.do`:
-
+**Generate macros in Stata:**
 ```stata
-* Update this line to your local path
-global ROOT "C:/Research/MyProject"
+* In your analysis script
+count
+local N = r(N)
+
+* Write to LaTeX
+file open macros using "04_Writing/macros.tex", write replace
+file write macros "\newcommand{\samplesize}{`N'}" _n
+file close macros
 ```
 
-All other paths are automatically configured relative to `ROOT`.
-
-### 2. Add Required Packages
-
-Edit `02_code/00_setup/00_setup.do`:
-
-```stata
-* Add required packages
-local packages "estout reghdfe ftools ivreg2"
+**Use in LaTeX:**
+```latex
+Our sample contains \samplesize observations.
 ```
 
-Packages are automatically installed when you run the project.
+### GitHub Integration (if `github()` used)
 
-### 3. Set Random Seed
-
-For reproducibility, update in `00_setup.do`:
-
-```stata
-set seed 123456789  * Use your preferred seed
+Automatically executes:
+```bash
+git init
+gh repo create --public/private --source=.
+git add .
+git commit -m "Initial project structure"
+git push -u origin main
 ```
+
+**Requirements**: GitHub CLI (`gh`) installed and authenticated
 
 ---
 
-## 🎯 Workflow
-
-### Typical Research Workflow
-
-1. **Initialize project**
-   ```stata
-   projectinit "MyProject", root("C:/Research")
-   cd "C:/Research/MyProject"
-   ```
-
-2. **Configure**
-   ```stata
-   doedit _config.do  * Update ROOT path
-   doedit 02_code/00_setup/00_setup.do  * Add packages
-   ```
-
-3. **Add data**
-   - Place raw data in `01_data/raw/`
-
-4. **Write code**
-   ```stata
-   doedit 02_code/01_cleaning/00_clean.do
-   doedit 02_code/02_analysis/00_analysis.do
-   doedit 02_code/03_figures/00_figures.do
-   doedit 02_code/04_tables/00_tables.do
-   ```
-
-5. **Execute**
-   ```stata
-   do master.do  * Manual execution
-   * OR
-   do run_all.do  * Automated execution
-   ```
-
-6. **Check outputs**
-   - Figures: `03_output/figures/`
-   - Tables: `03_output/tables/`
-   - Logs: `03_output/logs/`
-
----
-
-## 📋 Best Practices
-
-### For Reproducibility
-
-- ✅ **Never modify raw data** - Keep `01_data/raw/` unchanged
-- ✅ **Use relative paths** - Always use globals from `_config.do`
-- ✅ **Set random seeds** - Ensures reproducible results
-- ✅ **Document dependencies** - List all packages in `00_setup.do`
-- ✅ **Save execution logs** - Scripts automatically create logs
-- ✅ **Version control** - Use git to track code changes
-- ✅ **Linear workflow** - Code executes sequentially (00 → 04)
-
-### For Collaboration
-
-- 📝 Keep README.md updated
-- 💬 Comment your code thoroughly
-- 🔄 Use consistent naming conventions
-- 📊 Document all data sources
-- 🧪 Test replication package before submission
-
-### For AEA Compliance
-
-When preparing for journal submission:
-
-1. **Complete replication package**
-   ```stata
-   projectinit "Paper", root("C:/Submission") replicate
-   ```
-
-2. **Update replication README**
-   - Edit `04_replication/README_REPLICATION.md`
-   - Document all data sources
-   - List system requirements
-   - Provide expected runtime
-
-3. **Test replication**
-   ```stata
-   cd "C:/Submission/Paper/04_replication"
-   do replication.do
-   ```
-
-4. **Verify outputs match paper**
-
----
-
-## 🔍 Command Reference
+## 🔧 Command Reference
 
 ### Syntax
 
@@ -325,204 +262,352 @@ projectinit projectname, root(string) [options]
 
 ### Required Arguments
 
-- `projectname` - Name of the project (will be folder name)
-- `root(string)` - Parent directory where project will be created
+| Argument | Description |
+|----------|-------------|
+| `projectname` | Name of project (will be folder name) |
+| `root(string)` | Parent directory where project will be created |
 
 ### Options
 
-| Option | Description |
-|--------|-------------|
-| `overwrite` | Overwrite existing project folder |
-| `replicate` | Create replication package structure |
-| `verbose` | Display detailed output during creation |
-| `template(string)` | Use custom template (future feature) |
+| Option | Values | Default | Description |
+|--------|--------|---------|-------------|
+| `lang()` | `en` \| `es` | `en` | Interface language |
+| `latex()` | `puc` \| `standard` | none | LaTeX template |
+| `github()` | `public` \| `private` | none | Create GitHub repo |
+| `author()` | `"name"` | "Maykol Medrano" | Author name |
+| `email()` | `"email"` | "mmedrano2@uc.cl" | Contact email |
+| `replicate` | | | Include AEA replication package |
+| `overwrite` | | | Overwrite existing project |
+| `verbose` | | | Display detailed output |
 
-### Stored Results
+### Returned Values
 
 ```stata
 r(projname)   * Project name
 r(mainpath)   * Full path to project
-r(created)    * Status: "success"
+r(created)    * "success" if completed
 ```
 
 ---
 
 ## 🧪 Testing
 
-### Test Installation
+### Quick Test (30 seconds)
 
 ```stata
-* Check command is available
-which projectinit
-
-* View help file
-help projectinit
-
-* Test with example project
+* Test installation
 projectinit "TestProject", root("C:/Temp") verbose
+
+* Verify
+cd "C:/Temp/TestProject"
+dir
+do run.do
 ```
 
-### Verify Project Creation
+### Automated Test Suite
 
 ```stata
-* Navigate to project
-cd "C:/Temp/TestProject"
+* From project directory
+cd "C:/Users/User/OneDrive - Universidad Católica de Chile/Proyectos_GitHub/projectinit"
+do PRUEBA_RAPIDA.do
+```
 
-* Check structure
-dir
+This script tests:
+- ✅ Package installation
+- ✅ Basic project creation
+- ✅ Replication package option
+- ✅ Overwrite functionality
+- ✅ Error handling
 
-* Test configuration
-do _config.do
-
-* Run setup
-do 02_code/00_setup/00_setup.do
+**Expected output:**
+```
+✓ TODAS LAS PRUEBAS COMPLETADAS
 ```
 
 ---
 
-## 📝 Examples
+## 📖 Workflow Guide
 
-### Complete Research Project Example
+### Complete Research Workflow
+
+**1. Initialize Project**
 
 ```stata
-* 1. Create project with replication package
-projectinit "MinimumWage_RDD", root("C:/Research") replicate
-
-* 2. Navigate to project
-cd "C:/Research/MinimumWage_RDD"
-
-* 3. Configure paths
-doedit _config.do
-* Update: global ROOT "C:/Research/MinimumWage_RDD"
-
-* 4. Add required packages to setup
-doedit 02_code/00_setup/00_setup.do
-* Add: local packages "estout reghdfe ftools rdrobust rddensity"
-
-* 5. Place raw data
-copy "C:/RawData/wages.dta" "01_data/raw/wages.dta"
-
-* 6. Write cleaning code
-doedit 02_code/01_cleaning/00_clean.do
-
-* 7. Write analysis code
-doedit 02_code/02_analysis/00_analysis.do
-
-* 8. Generate figures and tables
-doedit 02_code/03_figures/00_figures.do
-doedit 02_code/04_tables/00_tables.do
-
-* 9. Run entire project
-do run_all.do
-
-* 10. Check outputs
-dir 03_output/figures
-dir 03_output/tables
+projectinit "MyResearch", ///
+    root("C:/Research") ///
+    lang(en) ///
+    latex(standard) ///
+    github(private) ///
+    author("Maykol Medrano") ///
+    replicate
 ```
+
+**2. Setup Environment**
+
+```stata
+cd "C:/Research/MyResearch"
+
+* Edit run.do to add required packages
+doedit run.do
+
+* Add packages like:
+* local packages "estout reghdfe ftools"
+```
+
+**3. Add Data**
+
+```stata
+* Place raw data (never modify originals)
+copy "C:/Data/survey.dta" "01_Data/Raw/"
+```
+
+**4. Write Analysis Scripts**
+
+```stata
+* Data preparation
+doedit 02_Scripts/Data_Preparation/01_clean.do
+
+* Main analysis
+doedit 02_Scripts/Analysis/01_regressions.do
+
+* Generate figures
+doedit 02_Scripts/Analysis/02_figures.do
+```
+
+**5. Execute**
+
+```stata
+* Run entire project
+do run.do
+
+* Or run specific scripts
+do 02_Scripts/Data_Preparation/01_clean.do
+```
+
+**6. Write Manuscript (if LaTeX)**
+
+```stata
+* Export tables
+esttab using "04_Writing/tables/main_results.tex", replace
+
+* Export figures
+graph export "04_Writing/figures/trends.pdf", replace
+
+* Edit main.tex in Overleaf or local LaTeX editor
+```
+
+**7. Version Control (if GitHub)**
+
+```stata
+* Make changes, then commit
+shell git add .
+shell git commit -m "Updated analysis with robustness checks"
+shell git push
+```
+
+**8. Prepare Replication (if replicate)**
+
+```stata
+cd "06_Replication"
+
+* Copy final data
+copy "../01_Data/Final/analysis.dta" "data/"
+
+* Copy scripts
+copy "../02_Scripts/Analysis/*.do" "code/"
+
+* Test replication
+do replication.do
+```
+
+---
+
+## ✨ Best Practices
+
+### For Reproducibility
+
+- ✅ **Never modify raw data** - Keep `01_Data/Raw/` untouched
+- ✅ **Use dynamic paths** - Always use globals from `run.do`
+- ✅ **Set random seeds** - Ensures reproducible results
+- ✅ **Document dependencies** - List all packages in `run.do`
+- ✅ **Version control** - Use git to track changes
+- ✅ **Linear workflow** - Scripts execute in numbered order
+
+### For Collaboration
+
+- 📝 Keep README.md updated
+- 💬 Comment code thoroughly
+- 🔄 Use consistent naming conventions
+- 📊 Document data sources
+- 🧪 Test replication package before submission
+
+### For AEA Compliance
+
+When preparing journal submission:
+
+1. **Complete replication README**
+   - Edit `06_Replication/README_REPLICATION.md`
+   - Document all data sources and access restrictions
+   - Provide system requirements and expected runtime
+
+2. **Test on clean machine**
+   ```stata
+   cd "06_Replication"
+   do replication.do
+   ```
+
+3. **Verify outputs match paper exactly**
+
+---
+
+## 📊 Version History
+
+### v2.1.0 Enterprise (Current - January 2026)
+
+**Major Features:**
+- J-PAL/DIME/AEA Data Editor compliance
+- Numbered folder structure (01_Data, 02_Scripts, etc.)
+- Enhanced LaTeX integration
+- Professional SMCL interface
+- Robust security validation
+
+**Technical:**
+- 1,096 lines of code
+- Input sanitization
+- Path traversal protection
+- Multi-OS compatibility verified
+
+### v2.0.0 (December 2025)
+
+- LaTeX integration (PUC and standard templates)
+- GitHub automation
+- Bilingual support (EN/ES)
+- Microdata optimization (CASEN/ENAHO)
+
+### v1.0.0 (December 2025)
+
+- Initial release
+- Basic AEA/JPAL/MIT structure
+- Replication package support
+
+**View previous versions**: See `versions/` folder
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome! To contribute:
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create feature branch: `git checkout -b feature/AmazingFeature`
+3. Make changes and test thoroughly
+4. Commit: `git commit -m 'Add AmazingFeature'`
+5. Push: `git push origin feature/AmazingFeature`
+6. Open Pull Request
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
-
----
-
-## 📚 References
-
-This package implements standards from:
-
-- [AEA Data and Code Availability Policy](https://www.aeaweb.org/journals/data/data-code-policy)
-- [JPAL Research Resources](https://www.povertyactionlab.org/research-resources)
-- Gentzkow, M., & Shapiro, J. M. (2014). *Code and Data for the Social Sciences: A Practitioner's Guide*. [Link](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
+**Code Standards:**
+- Follow Stata best practices
+- Add comments for complex logic
+- Test on Windows, Mac, and Linux if possible
+- Update documentation
 
 ---
 
-## 🙋 FAQ
-
-### Q: What version of Stata do I need?
-**A:** Stata 14.0 or higher. The package has been tested on Stata 14-18.
-
-### Q: Can I customize the folder structure?
-**A:** The current version uses a fixed structure. Custom templates are planned for future releases.
-
-### Q: What if I already have a project?
-**A:** Use the `overwrite` option carefully, or manually adopt elements you need.
-
-### Q: How do I share my project with collaborators?
-**A:** Use git for code. Share data separately. Collaborators only need to update the `ROOT` path in `_config.do`.
-
-### Q: Does this work with Stata projects in other languages?
-**A:** Yes! All documentation and comments can be edited. The structure is language-agnostic.
-
-### Q: How do I prepare for AEA submission?
-**A:** Use the `replicate` option, complete all documentation in `04_replication/README_REPLICATION.md`, and test that `replication.do` runs successfully on a clean machine.
-
----
-
-## 📧 Contact
-
-- **Author**: Maykol Medrano
-- **Email**: mmedrano2@uc.cl
-- **GitHub**: https://github.com/MaykolMedrano
-
----
-
-## 🐛 Bug Reports
-
-Please report bugs by opening an issue on GitHub with:
-- Your Stata version
-- Operating system
-- Full command you ran
-- Error message
-- Expected vs actual behavior
-
----
-
-## 📧 Contact
-
-- **Issues**: [GitHub Issues](https://github.com/MaykolMedrano/projectinit/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/MaykolMedrano/projectinit/discussions)
-
----
-
-## 🌟 Citation
+## 📖 Citation
 
 If you use **projectinit** in your research, please cite:
 
-```
-@software{projectinit2025,
+```bibtex
+@software{projectinit2026,
   author = {Maykol Medrano},
-  title = {projectinit: Professional Stata Project Structure Initializer},
-  year = {2025},
+  title = {projectinit v2.1: Professional Stata Project Structure Initializer},
+  version = {2.1.0},
+  year = {2026},
   url = {https://github.com/MaykolMedrano/projectinit}
 }
 ```
 
 ---
 
-## ✨ Acknowledgments
+## 📞 Support
 
-Developed following best practices from:
-- American Economic Association
-- Abdul Latif Jameel Poverty Action Lab (JPAL)
-- MIT Department of Economics
-- Code and Data for the Social Sciences (Gentzkow & Shapiro)
+### Getting Help
+
+- 📖 **Documentation**: This README
+- 🔧 **In Stata**: `help projectinit`
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/MaykolMedrano/projectinit/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/MaykolMedrano/projectinit/issues)
+- 📧 **Email**: mmedrano2@uc.cl
+
+### Reporting Bugs
+
+Please include:
+- Stata version (`about`)
+- Operating system
+- Full command executed
+- Error message
+- Expected vs actual behavior
+
+### Feature Requests
+
+Open an issue describing:
+- Use case
+- Expected behavior
+- Why it would be useful
+
+---
+
+## 🙏 Acknowledgments
+
+Built following best practices from:
+- **J-PAL (MIT)** - Abdul Latif Jameel Poverty Action Lab
+- **DIME (World Bank)** - Development Impact Evaluation
+- **AEA Data Editor** - American Economic Association
+- **NBER** - National Bureau of Economic Research
+- Gentzkow & Shapiro (2014) - "Code and Data for the Social Sciences"
+
+### Related Tools
+
+- [iefolder](https://github.com/worldbank/iefolder) - World Bank DIME tool
+- [ietoolkit](https://github.com/worldbank/ietoolkit) - Impact evaluation toolkit
+- [datacheck](https://ideas.repec.org/c/boc/bocode/s458060.html) - Data quality verification
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+**What this means:**
+- ✅ Free for academic and commercial use
+- ✅ Modify and distribute freely
+- ✅ No warranty provided
+- ✅ Attribution appreciated
+
+---
+
+## 🔗 Links
+
+- **GitHub**: https://github.com/MaykolMedrano/projectinit
+- **Issues**: https://github.com/MaykolMedrano/projectinit/issues
+- **Author**: [@MaykolMedrano](https://github.com/MaykolMedrano)
+
+---
+
+## 📈 Stats
+
+- **Lines of Code**: ~1,100 (v2.1)
+- **Documentation**: Comprehensive inline comments
+- **Tested On**: Stata 14-18, Windows/Mac/Linux
+- **Standards**: J-PAL, DIME, AEA, NBER compliant
+- **Language Support**: English, Spanish
 
 ---
 
 **Made with ❤️ for reproducible research**
+
+*Optimized for Chilean and Peruvian microdata analysis*
+
+**Version**: 2.1.0 Enterprise
+**Released**: January 2026
+**Author**: Maykol Medrano (mmedrano2@uc.cl)
