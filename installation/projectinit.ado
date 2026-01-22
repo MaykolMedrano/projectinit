@@ -1095,3 +1095,580 @@ program define projectinit_readme_aea
 
     di as result "  ✓ README.md (AEA-compliant)"
 end
+
+********************************************************************************
+* SUBPROGRAM: Generate Template Analysis Scripts (J-PAL Standard)
+********************************************************************************
+program define projectinit_scripts_jpal
+    syntax, PATH(string) LAng(string)
+
+    * This is a placeholder - creates basic template files
+    * Users can customize these scripts as needed
+
+    if "`lang'" == "en" {
+        * Create placeholder in Data_Preparation
+        file open scriptfile using `"`path'/02_Scripts/Data_Preparation/01_import.do"', write replace
+        file write scriptfile "/*******************************************************************************" _n
+        file write scriptfile "* DATA IMPORT SCRIPT" _n
+        file write scriptfile "*" _n
+        file write scriptfile "* Purpose: Import raw data files" _n
+        file write scriptfile "*******************************************************************************/" _n
+        file write scriptfile "" _n
+        file write scriptfile "* Example:" _n
+        file write scriptfile `"* use "\$raw/yourdata.dta", clear"' _n
+        file write scriptfile `"* save "\$intermediate/imported.dta", replace"' _n
+        file close scriptfile
+
+        * Create placeholder in Analysis
+        file open scriptfile using `"`path'/02_Scripts/Analysis/01_descriptive.do"', write replace
+        file write scriptfile "/*******************************************************************************" _n
+        file write scriptfile "* DESCRIPTIVE ANALYSIS" _n
+        file write scriptfile "*" _n
+        file write scriptfile "* Purpose: Descriptive statistics and summary tables" _n
+        file write scriptfile "*******************************************************************************/" _n
+        file write scriptfile "" _n
+        file write scriptfile "* Example:" _n
+        file write scriptfile `"* use "\$final/analysis.dta", clear"' _n
+        file write scriptfile "* summarize" _n
+        file close scriptfile
+    }
+    else {
+        * Spanish version
+        file open scriptfile using `"`path'/02_Scripts/Data_Preparation/01_import.do"', write replace
+        file write scriptfile "/*******************************************************************************" _n
+        file write scriptfile "* SCRIPT DE IMPORTACIÓN DE DATOS" _n
+        file write scriptfile "*" _n
+        file write scriptfile "* Propósito: Importar archivos de datos crudos" _n
+        file write scriptfile "*******************************************************************************/" _n
+        file write scriptfile "" _n
+        file write scriptfile "* Ejemplo:" _n
+        file write scriptfile `"* use "\$raw/tusdatos.dta", clear"' _n
+        file write scriptfile `"* save "\$intermediate/importados.dta", replace"' _n
+        file close scriptfile
+
+        file open scriptfile using `"`path'/02_Scripts/Analysis/01_descriptive.do"', write replace
+        file write scriptfile "/*******************************************************************************" _n
+        file write scriptfile "* ANÁLISIS DESCRIPTIVO" _n
+        file write scriptfile "*" _n
+        file write scriptfile "* Propósito: Estadísticas descriptivas y tablas resumen" _n
+        file write scriptfile "*******************************************************************************/" _n
+        file write scriptfile "" _n
+        file write scriptfile "* Ejemplo:" _n
+        file write scriptfile `"* use "\$final/analisis.dta", clear"' _n
+        file write scriptfile "* summarize" _n
+        file close scriptfile
+    }
+
+    di as result "  ✓ Template scripts created"
+end
+
+********************************************************************************
+* SUBPROGRAM: GitHub Repository Initialization (Enhanced)
+********************************************************************************
+program define projectinit_github_enhanced
+    syntax, PATH(string) PROJname(string) VISibility(string) AUthor(string) Email(string)
+
+    * Check if git and gh CLI are available
+    capture shell git --version
+    if _rc {
+        di as error "  Git not found. Install git first."
+        di as text "  Skipping GitHub integration."
+        exit 0
+    }
+
+    capture shell gh --version
+    if _rc {
+        di as error "  GitHub CLI (gh) not found. Install gh first."
+        di as text "  Visit: https://cli.github.com/"
+        di as text "  Skipping GitHub integration."
+        exit 0
+    }
+
+    * Navigate to project directory
+    local olddir `"`c(pwd)'"'
+    quietly cd `"`path'"'
+
+    * Initialize git repository
+    di as text "  Initializing git repository..."
+    shell git init
+
+    * Configure git
+    shell git config user.name "`author'"
+    shell git config user.email "`email'"
+
+    * Create GitHub repository
+    di as text "  Creating GitHub repository..."
+    if "`visibility'" == "private" {
+        shell gh repo create "`projname'" --`visibility' --source=. --remote=origin
+    }
+    else {
+        shell gh repo create "`projname'" --public --source=. --remote=origin
+    }
+
+    * Initial commit
+    di as text "  Making initial commit..."
+    shell git add .
+    shell git commit -m "Initial project structure from projectinit v2.1"
+
+    * Push to GitHub
+    di as text "  Pushing to GitHub..."
+    capture shell git push -u origin main
+    if _rc {
+        capture shell git push -u origin master
+    }
+
+    * Return to original directory
+    quietly cd `"`olddir'"'
+
+    di as result "  ✓ GitHub repository created"
+end
+
+********************************************************************************
+* SUBPROGRAM: AEA Replication Package
+********************************************************************************
+program define projectinit_replication_aea
+    syntax, PATH(string) PROJname(string) LAng(string) AUthor(string) Email(string)
+
+    * Create replication directory structure
+    capture mkdir `"`path'/06_Replication"'
+    capture mkdir `"`path'/06_Replication/data"'
+    capture mkdir `"`path'/06_Replication/code"'
+    capture mkdir `"`path'/06_Replication/outputs"'
+
+    * Create replication README
+    file open repfile using `"`path'/06_Replication/README_REPLICATION.md"', write replace
+
+    if "`lang'" == "en" {
+        file write repfile "# Replication Package: `projname'" _n
+        file write repfile "" _n
+        file write repfile "**Author**: `author'" _n
+        file write repfile "**Email**: `email'" _n
+        file write repfile "" _n
+        file write repfile "## Overview" _n
+        file write repfile "" _n
+        file write repfile "This package contains all materials needed to replicate the results" _n
+        file write repfile "presented in the paper." _n
+        file write repfile "" _n
+        file write repfile "## Data Availability Statement" _n
+        file write repfile "" _n
+        file write repfile "[Describe data sources, access restrictions, and licensing]" _n
+        file write repfile "" _n
+        file write repfile "## Computational Requirements" _n
+        file write repfile "" _n
+        file write repfile "- **Software**: Stata `c(stata_version)' or higher" _n
+        file write repfile "- **Packages**: Listed in replication.do" _n
+        file write repfile "- **Runtime**: Approximately [X] hours on standard desktop" _n
+        file write repfile "- **Memory**: Minimum 8GB RAM recommended" _n
+        file write repfile "" _n
+        file write repfile "## Instructions" _n
+        file write repfile "" _n
+        file write repfile "1. Place data files in `data/` directory" _n
+        file write repfile "2. Run `replication.do` in Stata" _n
+        file write repfile "3. Check outputs in `outputs/` directory" _n
+    }
+    else {
+        file write repfile "# Paquete de Replicación: `projname'" _n
+        file write repfile "" _n
+        file write repfile "**Autor**: `author'" _n
+        file write repfile "**Email**: `email'" _n
+        file write repfile "" _n
+        file write repfile "## Resumen" _n
+        file write repfile "" _n
+        file write repfile "Este paquete contiene todos los materiales necesarios para replicar" _n
+        file write repfile "los resultados presentados en el documento." _n
+        file write repfile "" _n
+        file write repfile "## Declaración de Disponibilidad de Datos" _n
+        file write repfile "" _n
+        file write repfile "[Describir fuentes de datos, restricciones de acceso y licencias]" _n
+        file write repfile "" _n
+        file write repfile "## Requisitos Computacionales" _n
+        file write repfile "" _n
+        file write repfile "- **Software**: Stata `c(stata_version)' o superior" _n
+        file write repfile "- **Paquetes**: Listados en replication.do" _n
+        file write repfile "- **Tiempo de ejecución**: Aproximadamente [X] horas en PC estándar" _n
+        file write repfile "- **Memoria**: Mínimo 8GB RAM recomendado" _n
+        file write repfile "" _n
+        file write repfile "## Instrucciones" _n
+        file write repfile "" _n
+        file write repfile "1. Colocar archivos de datos en directorio `data/`" _n
+        file write repfile "2. Ejecutar `replication.do` en Stata" _n
+        file write repfile "3. Verificar resultados en directorio `outputs/`" _n
+    }
+
+    file close repfile
+
+    * Create replication.do master script
+    file open repdo using `"`path'/06_Replication/replication.do"', write replace
+    file write repdo "* Replication Master Script" _n
+    file write repdo "* Project: `projname'" _n
+    file write repdo "" _n
+    file write repdo "clear all" _n
+    file write repdo "set more off" _n
+    file write repdo "" _n
+    file write repdo "* Set working directory" _n
+    file write repdo `"cd "\`c(pwd)'/06_Replication""' _n
+    file write repdo "" _n
+    file write repdo "* Run analysis scripts" _n
+    file write repdo "* do code/01_analysis.do" _n
+    file write repdo "" _n
+    file write repdo "* End of replication" _n
+    file close repdo
+
+    di as result "  ✓ Replication package created (06_Replication/)"
+end
+
+********************************************************************************
+* SUBPROGRAM: LaTeX Environment (Enhanced)
+********************************************************************************
+program define projectinit_latex_enhanced
+    syntax, PATH(string) PROJname(string) TEMplate(string) LAng(string) AUthor(string)
+
+    * Create LaTeX directory structure
+    capture mkdir `"`path'/04_Writing"'
+    capture mkdir `"`path'/04_Writing/sections"'
+    capture mkdir `"`path'/04_Writing/tables"'
+    capture mkdir `"`path'/04_Writing/figures"'
+    capture mkdir `"`path'/04_Writing/bibliography"'
+
+    * Create main.tex
+    file open maintex using `"`path'/04_Writing/main.tex"', write replace
+
+    if "`template'" == "puc" {
+        * PUC Thesis Template - Complete Professional Format
+        file write maintex "\documentclass[9pt, a4paper]{article}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Codificación, Fuentes e Idioma" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage[utf8]{inputenc}" _n
+        file write maintex "\usepackage[T1]{fontenc}" _n
+        file write maintex "\usepackage{lmodern}" _n
+        file write maintex "\usepackage[english, spanish]{babel}" _n
+        file write maintex "\renewcommand*\familydefault{\sfdefault}" _n
+        file write maintex "\usepackage{relsize}" _n
+        file write maintex "\usepackage{url}" _n
+        file write maintex "\usepackage{doi}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Configuración de Página y Espaciado" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage{geometry}" _n
+        file write maintex "\geometry{a4paper, margin=2.5cm}" _n
+        file write maintex "\setlength{\parindent}{1.5em}" _n
+        file write maintex "\setlength{\parskip}{0.5em}" _n
+        file write maintex "\renewcommand{\baselinestretch}{1.15}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Matemáticas" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage{amsmath}" _n
+        file write maintex "\usepackage{amssymb}" _n
+        file write maintex "\usepackage{amsthm}" _n
+        file write maintex "\usepackage{bm}" _n
+        file write maintex "\newtheorem{mydef}{Definition}" _n
+        file write maintex "\newtheorem{mytherm}{Theorem}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Gráficos y Figuras" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage{graphicx}" _n
+        file write maintex "\usepackage{caption}" _n
+        file write maintex "\usepackage{subcaption}" _n
+        file write maintex "\usepackage{float}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Tablas" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage{booktabs}" _n
+        file write maintex "\usepackage{multirow}" _n
+        file write maintex "\usepackage{makecell}" _n
+        file write maintex "\usepackage{rotating}" _n
+        file write maintex "\usepackage{threeparttable}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Listas y Columnas" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage{enumitem}" _n
+        file write maintex "\usepackage{multicol}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Algoritmos y Código Fuente" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage{algorithm}" _n
+        file write maintex "\usepackage{algpseudocode}" _n
+        file write maintex "\renewcommand{\algorithmicrequire}{\textbf{Input:}}" _n
+        file write maintex "\renewcommand{\algorithmicensure}{\textbf{Output:}}" _n
+        file write maintex "\usepackage{listings}" _n
+        file write maintex "\usepackage{xcolor}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Referencias y Bibliografía" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage[round, authoryear]{natbib}" _n
+        file write maintex "\bibliographystyle{apalike}" _n
+        file write maintex "\renewcommand{\bibname}{referencias}" _n
+        file write maintex "\usepackage{tikz}" _n
+        file write maintex "\usetikzlibrary{positioning, arrows.meta, shapes}" _n
+        file write maintex "" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "%% Hipervínculos" _n
+        file write maintex "%%-------------------------------------" _n
+        file write maintex "\usepackage{hyperref}" _n
+        file write maintex "\hypersetup{" _n
+        file write maintex "    colorlinks=true," _n
+        file write maintex "    linkcolor=blue!60!black," _n
+        file write maintex "    urlcolor=blue!70!black," _n
+        file write maintex "    citecolor=blue!70!black," _n
+        file write maintex "    bookmarksopen=true," _n
+        file write maintex "    pdftitle={`projname'}," _n
+        file write maintex "    pdfauthor={`author'}" _n
+        file write maintex "}" _n
+        file write maintex "\usepackage{titling}" _n
+        file write maintex "\usepackage{setspace}" _n
+        file write maintex "" _n
+        file write maintex "% Macros from Stata" _n
+        file write maintex "\input{macros.tex}" _n
+        file write maintex "" _n
+        file write maintex "\begin{document}" _n
+        file write maintex "" _n
+        file write maintex "\begin{titlepage}" _n
+        file write maintex "    \begin{center}" _n
+        file write maintex "        {\fontsize{16}{20}\selectfont" _n
+        file write maintex "         \textbf{PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE}\\[0.3cm]" _n
+        file write maintex "        }" _n
+        file write maintex "        \vspace*{1cm}" _n
+        file write maintex "        % \includegraphics[width=4cm]{UC_logo.jpg}" _n
+        file write maintex "        \vspace{0.8cm}" _n
+        file write maintex "        \vspace{2cm}" _n
+        file write maintex "        \begin{spacing}{1.1}" _n
+        file write maintex "            {\fontsize{18}{24}\selectfont\bfseries" _n
+        file write maintex "             \textcolor{navy}{`projname'}" _n
+        file write maintex "            }" _n
+        file write maintex "        \end{spacing}" _n
+        file write maintex "        \vspace{2cm}" _n
+        file write maintex "        {\begin{minipage}{0.6\textwidth}" _n
+        file write maintex "            \centering" _n
+        file write maintex "            {\fontsize{12}{12}\selectfont" _n
+        file write maintex "             \textbf{Autores}\\[0.3cm]" _n
+        file write maintex "             `author'" _n
+        file write maintex "            }" _n
+        file write maintex "        \end{minipage}}" _n
+        file write maintex "        \vspace{1.5cm}" _n
+        file write maintex "        \vfill" _n
+        file write maintex "        \begin{minipage}{\textwidth}" _n
+        file write maintex "            \centering" _n
+        file write maintex "            {\fontsize{12}{14}\selectfont" _n
+        file write maintex "             \textbf{Santiago, Chile}\\[0.2cm]" _n
+        file write maintex "             \today\\[0.5cm]" _n
+        file write maintex "             \textcolor{gray!70!black}{\rule{0.5\textwidth}{0.5pt}}\\[0.3cm]" _n
+        file write maintex "             {\fontsize{10}{12}\selectfont" _n
+        file write maintex "              \textit{Facultad de Ciencias Económicas y Administrativas}\\[0.1cm]" _n
+        file write maintex "              \textit{Instituto de Economía UC}" _n
+        file write maintex "             }" _n
+        file write maintex "            }" _n
+        file write maintex "        \end{minipage}" _n
+        file write maintex "    \end{center}" _n
+        file write maintex "\end{titlepage}" _n
+        file write maintex "" _n
+        file write maintex "\newpage" _n
+        file write maintex "\tableofcontents" _n
+        file write maintex "\newpage" _n
+        file write maintex "" _n
+        file write maintex "\input{sections/01_introduction.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Revisión de Literatura}" _n
+        file write maintex "\input{sections/02_literature.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Marco Conceptual}" _n
+        file write maintex "\input{sections/03_framework.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Datos}" _n
+        file write maintex "\input{sections/04_data.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Estrategia Empírica}" _n
+        file write maintex "\input{sections/05_methodology.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Estadísticas descriptivas y caracterización del fenómeno}" _n
+        file write maintex "\input{sections/06_results.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Conclusiones}" _n
+        file write maintex "\input{sections/07_conclusions.tex}" _n
+        file write maintex "" _n
+        file write maintex "\newpage" _n
+        file write maintex "\bibliographystyle{apalike-doi}" _n
+        file write maintex "\bibliography{bibliography/references}" _n
+        file write maintex "" _n
+        file write maintex "\appendix" _n
+        file write maintex "\newpage" _n
+        file write maintex "\section{Anexo}" _n
+        file write maintex "\input{sections/08_appendix.tex}" _n
+        file write maintex "" _n
+        file write maintex "\end{document}" _n
+    }
+    else {
+        * Standard article template
+        file write maintex "\documentclass[12pt]{article}" _n
+        file write maintex "\usepackage[utf8]{inputenc}" _n
+        file write maintex "\usepackage{amsmath,amssymb}" _n
+        file write maintex "\usepackage{graphicx}" _n
+        file write maintex "\usepackage{booktabs}" _n
+        file write maintex "\usepackage{hyperref}" _n
+        file write maintex "\usepackage[margin=2.5cm]{geometry}" _n
+        file write maintex "" _n
+        file write maintex "\title{`projname'}" _n
+        file write maintex "\author{`author'}" _n
+        file write maintex "\date{\today}" _n
+        file write maintex "" _n
+        file write maintex "\input{preamble.tex}" _n
+        file write maintex "\input{macros.tex}" _n
+        file write maintex "" _n
+        file write maintex "\begin{document}" _n
+        file write maintex "" _n
+        file write maintex "\maketitle" _n
+        file write maintex "\begin{abstract}" _n
+        file write maintex "Your abstract here." _n
+        file write maintex "\end{abstract}" _n
+        file write maintex "" _n
+        file write maintex "\section{Introduction}" _n
+        file write maintex "\input{sections/01_introduction.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Data and Methodology}" _n
+        file write maintex "\input{sections/02_data.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Results}" _n
+        file write maintex "\input{sections/03_results.tex}" _n
+        file write maintex "" _n
+        file write maintex "\section{Conclusion}" _n
+        file write maintex "\input{sections/04_conclusion.tex}" _n
+        file write maintex "" _n
+        file write maintex "\bibliographystyle{apalike}" _n
+        file write maintex "\bibliography{bibliography/references}" _n
+        file write maintex "" _n
+        file write maintex "\end{document}" _n
+    }
+    file close maintex
+
+    * Create preamble.tex
+    file open preamble using `"`path'/04_Writing/preamble.tex"', write replace
+    file write preamble "% Custom packages and settings" _n
+    file write preamble "" _n
+    file write preamble "% Tables" _n
+    file write preamble "\usepackage{array}" _n
+    file write preamble "\usepackage{multirow}" _n
+    file write preamble "\usepackage{longtable}" _n
+    file write preamble "" _n
+    file write preamble "% Figures" _n
+    file write preamble "\usepackage{subcaption}" _n
+    file write preamble "\graphicspath{{figures/}}" _n
+    file write preamble "" _n
+    file write preamble "% Math" _n
+    file write preamble "\usepackage{amsthm}" _n
+    file write preamble "\newtheorem{theorem}{Theorem}" _n
+    file write preamble "\newtheorem{proposition}{Proposition}" _n
+    file close preamble
+
+    * Create macros.tex (empty template for Stata-generated macros)
+    file open macros using `"`path'/04_Writing/macros.tex"', write replace
+    file write macros "% Auto-generated macros from Stata" _n
+    file write macros "% Use Stata to write commands like:" _n
+    file write macros "% \newcommand{\samplesize}{1234}" _n
+    file write macros "% \newcommand{\meanage}{45.6}" _n
+    file write macros "" _n
+    file write macros "% Example usage in LaTeX:" _n
+    file write macros "% Our sample contains \samplesize observations." _n
+    file close macros
+
+    * Create section templates based on template type
+    if "`template'" == "puc" {
+        * PUC format - Spanish sections
+        file open intro using `"`path'/04_Writing/sections/01_introduction.tex"', write replace
+        file write intro "\section{Introducción}" _n
+        file write intro "" _n
+        file write intro "% Escribe tu introducción aquí..." _n
+        file close intro
+
+        file open lit using `"`path'/04_Writing/sections/02_literature.tex"', write replace
+        file write lit "% Revisión de Literatura" _n
+        file write lit "" _n
+        file write lit "% Escribe la revisión de literatura aquí..." _n
+        file close lit
+
+        file open framework using `"`path'/04_Writing/sections/03_framework.tex"', write replace
+        file write framework "% Marco Conceptual" _n
+        file write framework "" _n
+        file write framework "% Escribe el marco conceptual aquí..." _n
+        file close framework
+
+        file open data using `"`path'/04_Writing/sections/04_data.tex"', write replace
+        file write data "% Datos" _n
+        file write data "" _n
+        file write data "% Describe los datos aquí..." _n
+        file close data
+
+        file open method using `"`path'/04_Writing/sections/05_methodology.tex"', write replace
+        file write method "% Estrategia Empírica" _n
+        file write method "" _n
+        file write method "% Describe la metodología aquí..." _n
+        file close method
+
+        file open results using `"`path'/04_Writing/sections/06_results.tex"', write replace
+        file write results "% Resultados" _n
+        file write results "" _n
+        file write results "% La Tabla~\ref{tab:main} presenta los resultados principales..." _n
+        file close results
+
+        file open conclusion using `"`path'/04_Writing/sections/07_conclusions.tex"', write replace
+        file write conclusion "% Conclusiones" _n
+        file write conclusion "" _n
+        file write conclusion "% Escribe las conclusiones aquí..." _n
+        file close conclusion
+
+        file open appendix using `"`path'/04_Writing/sections/08_appendix.tex"', write replace
+        file write appendix "% Anexo" _n
+        file write appendix "" _n
+        file write appendix "% Material adicional..." _n
+        file close appendix
+    }
+    else {
+        * Standard format - English sections
+        file open intro using `"`path'/04_Writing/sections/01_introduction.tex"', write replace
+        file write intro "% Introduction" _n
+        file write intro "" _n
+        file write intro "This paper examines..." _n
+        file close intro
+
+        file open data using `"`path'/04_Writing/sections/02_data.tex"', write replace
+        file write data "% Data and Methodology" _n
+        file write data "" _n
+        file write data "We use data from..." _n
+        file close data
+
+        file open results using `"`path'/04_Writing/sections/03_results.tex"', write replace
+        file write results "% Results" _n
+        file write results "" _n
+        file write results "Table~\ref{tab:main} presents our main results..." _n
+        file close results
+
+        file open conclusion using `"`path'/04_Writing/sections/04_conclusion.tex"', write replace
+        file write conclusion "% Conclusion" _n
+        file write conclusion "" _n
+        file write conclusion "In conclusion..." _n
+        file close conclusion
+    }
+
+    * Create bibliography file
+    file open bib using `"`path'/04_Writing/bibliography/references.bib"', write replace
+    file write bib "@article{example2020," _n
+    file write bib "  author = {Author, First}," _n
+    file write bib "  title = {Paper Title}," _n
+    file write bib "  journal = {Journal Name}," _n
+    file write bib "  year = {2020}," _n
+    file write bib "  volume = {1}," _n
+    file write bib "  pages = {1--20}" _n
+    file write bib "}" _n
+    file close bib
+
+    di as result "  ✓ LaTeX environment created (04_Writing/)"
+    di as text "    Template: `template'"
+    di as text "    Files: main.tex, preamble.tex, macros.tex"
+end
