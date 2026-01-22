@@ -1,0 +1,25 @@
+v 3
+d projectinit v2.1 - Professional Research Project Initializer (Enterprise)
+d
+d projectinit creates professional, reproducible research project structures
+d following J-PAL (MIT), DIME (World Bank), and AEA Data Editor standards.
+d
+d Features:
+d - J-PAL/DIME folder structure with numbered directories
+d - LaTeX integration (standard and PUC templates)
+d - GitHub automation for version control
+d - Bilingual support (English/Spanish)
+d - Optimized for Chilean and Peruvian microdata (CASEN, ENAHO)
+d - One-click reproducibility infrastructure
+d - Dynamic paths using c(pwd) for portability
+d
+d Distribution-Date: 20260121
+d License: MIT
+d
+d Author: Maykol Medrano
+d Email: mmedrano2@uc.cl
+d URL: https://github.com/MaykolMedrano/projectinit
+d
+f projectinit.ado
+f projectinit.sthlp
+f helpers/projectinit_helpers.do
