@@ -1168,47 +1168,55 @@ end
 program define projectinit_github_enhanced
     syntax, PATH(string) PROJname(string) VISibility(string) AUthor(string) Email(string)
 
-    * Check if git and gh CLI are available
-    capture shell git --version
-    if _rc {
-        di as error "  Git not found. Install git first."
-        di as text "  Skipping GitHub integration."
-        exit 0
-    }
-
-    capture shell gh --version
-    if _rc {
-        di as error "  GitHub CLI (gh) not found. Install gh first."
-        di as text "  Visit: https://cli.github.com/"
-        di as text "  Skipping GitHub integration."
-        exit 0
-    }
-
-    * Navigate to project directory
+    * Navigate to project directory first
     local olddir `"`c(pwd)'"'
     quietly cd `"`path'"'
 
-    * Initialize git repository
+    * Initialize git repository (always safe to do)
     di as text "  Initializing git repository..."
-    shell git init
+    capture shell git init
+    if _rc {
+        di as error "  Git not found. Install git first."
+        di as text "  Repository initialized locally only (no GitHub integration)."
+        quietly cd `"`olddir'"'
+        exit 0
+    }
 
     * Configure git
-    shell git config user.name "`author'"
-    shell git config user.email "`email'"
+    capture shell git config user.name "`author'"
+    capture shell git config user.email "`email'"
 
-    * Create GitHub repository
+    * Initial commit (do this first, before trying GitHub)
+    di as text "  Making initial commit..."
+    capture shell git add .
+    capture shell git commit -m "Initial project structure from projectinit v2.1"
+
+    * Try to use GitHub CLI
     di as text "  Creating GitHub repository..."
     if "`visibility'" == "private" {
-        shell gh repo create "`projname'" --`visibility' --source=. --remote=origin
+        capture shell gh repo create "`projname'" --`visibility' --source=. --remote=origin
     }
     else {
-        shell gh repo create "`projname'" --public --source=. --remote=origin
+        capture shell gh repo create "`projname'" --public --source=. --remote=origin
     }
 
-    * Initial commit
-    di as text "  Making initial commit..."
-    shell git add .
-    shell git commit -m "Initial project structure from projectinit v2.1"
+    local gh_failed = _rc
+
+    if `gh_failed' {
+        di as error "  GitHub CLI (gh) not available in PATH."
+        di as text "  Repository created locally with Git."
+        di as text ""
+        di as text "  {bf:To sync with GitHub:}"
+        di as text "  1. Create repository manually at https://github.com/new"
+        di as text "  2. Run these commands:"
+        di as text `"     cd "`path'""'
+        di as text "     git remote add origin https://github.com/YOUR_USERNAME/`projname'.git"
+        di as text "     git push -u origin main"
+        di as text ""
+        di as text "  Or install GitHub CLI: https://cli.github.com/"
+        quietly cd `"`olddir'"'
+        exit 0
+    }
 
     * Push to GitHub
     di as text "  Pushing to GitHub..."
@@ -1220,7 +1228,7 @@ program define projectinit_github_enhanced
     * Return to original directory
     quietly cd `"`olddir'"'
 
-    di as result "  ✓ GitHub repository created"
+    di as result "  ✓ GitHub repository created and pushed"
 end
 
 ********************************************************************************
