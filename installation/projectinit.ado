@@ -22,7 +22,7 @@ Changelog:   v2.1.0 - Enhanced with J-PAL/DIME/AEA standards
              v2.0.0 - Added LaTeX and GitHub integration
              v1.0.0 - Initial release
 *******************************************************************************/
-
+program drop _all
 program define projectinit, rclass
     version 14.0
 
@@ -428,7 +428,7 @@ program define projectinit_run
     file write runfile "*******************************************************************************/" _n
     file write runfile "" _n
     file write runfile "* Root directory (automatically detected)" _n
-    file write runfile `"global root "`c(pwd)'"' _n"' _n
+    file write runfile `"global root "\`c(pwd)'"' _n"' _n
     file write runfile "" _n
     file write runfile "* Data directories (J-PAL/DIME standard)" _n
     file write runfile "global data          \"\$root/01_Data\"" _n
