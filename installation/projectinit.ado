@@ -428,47 +428,47 @@ program define projectinit_run
     file write runfile "*******************************************************************************/" _n
     file write runfile "" _n
     file write runfile "* Root directory (automatically detected)" _n
-    file write runfile `"global root "\`c(pwd)'"' _n"' _n
+    file write runfile `"global root "\`c(pwd)'"' _n
     file write runfile "" _n
     file write runfile "* Data directories (J-PAL/DIME standard)" _n
-    file write runfile "global data          \"\$root/01_Data\"" _n
-    file write runfile "global raw           \"\$data/Raw\"" _n
-    file write runfile "global deidentified  \"\$data/De-identified\"" _n
-    file write runfile "global intermediate  \"\$data/Intermediate\"" _n
-    file write runfile "global final         \"\$data/Final\"" _n
+    file write runfile `"global data          "\$root/01_Data""' _n
+    file write runfile `"global raw           "\$data/Raw""' _n
+    file write runfile `"global deidentified  "\$data/De-identified""' _n
+    file write runfile `"global intermediate  "\$data/Intermediate""' _n
+    file write runfile `"global final         "\$data/Final""' _n
     file write runfile "" _n
     file write runfile "* Script directories (NBER standard)" _n
-    file write runfile "global scripts       \"\$root/02_Scripts\"" _n
-    file write runfile "global ados          \"\$scripts/Ados\"" _n
-    file write runfile "global dataprep      \"\$scripts/Data_Preparation\"" _n
-    file write runfile "global analysis      \"\$scripts/Analysis\"" _n
-    file write runfile "global validation    \"\$scripts/Validation\"" _n
+    file write runfile `"global scripts       "\$root/02_Scripts""' _n
+    file write runfile `"global ados          "\$scripts/Ados""' _n
+    file write runfile `"global dataprep      "\$scripts/Data_Preparation""' _n
+    file write runfile `"global analysis      "\$scripts/Analysis""' _n
+    file write runfile `"global validation    "\$scripts/Validation""' _n
     file write runfile "" _n
     file write runfile "* Output directories (AEA standard)" _n
-    file write runfile "global outputs       \"\$root/03_Outputs\"" _n
-    file write runfile "global tables        \"\$outputs/Tables\"" _n
-    file write runfile "global figures       \"\$outputs/Figures\"" _n
-    file write runfile "global logs          \"\$outputs/Logs\"" _n
-    file write runfile "global rawout        \"\$outputs/Raw_Outputs\"" _n
+    file write runfile `"global outputs       "\$root/03_Outputs""' _n
+    file write runfile `"global tables        "\$outputs/Tables""' _n
+    file write runfile `"global figures       "\$outputs/Figures""' _n
+    file write runfile `"global logs          "\$outputs/Logs""' _n
+    file write runfile `"global rawout        "\$outputs/Raw_Outputs""' _n
     file write runfile "" _n
     file write runfile "* Documentation" _n
-    file write runfile "global doc           \"\$root/05_Doc\"" _n
-    file write runfile "global codebooks     \"\$doc/Codebooks\"" _n
+    file write runfile `"global doc           "\$root/05_Doc""' _n
+    file write runfile `"global codebooks     "\$doc/Codebooks""' _n
     file write runfile "" _n
     file write runfile "* Writing (if applicable)" _n
-    file write runfile "global writing       \"\$root/04_Writing\"" _n
+    file write runfile `"global writing       "\$root/04_Writing""' _n
     file write runfile "" _n
     file write runfile "* Display configuration" _n
-    file write runfile "display as text \"\"" _n
-    file write runfile "display as result \"{hline 78}\"" _n
-    file write runfile "display as result \"PROJECT: `projname'\"" _n
-    file write runfile "display as result \"{hline 78}\"" _n
-    file write runfile "display as text \"Root:      \$root\"" _n
-    file write runfile "display as text \"Started:   \`c(current_date)' \`c(current_time)'\"" _n
-    file write runfile "display as text \"User:      \`c(username)'\"" _n
-    file write runfile "display as text \"Stata:     `c(stata_version)' (`c(flavor)')\"" _n
-    file write runfile "display as result \"{hline 78}\"" _n
-    file write runfile "display as text \"\"" _n
+    file write runfile `"display as text """' _n
+    file write runfile `"display as result "{hline 78}""' _n
+    file write runfile `"display as result "PROJECT: `projname'""' _n
+    file write runfile `"display as result "{hline 78}""' _n
+    file write runfile `"display as text "Root:      \$root""' _n
+    file write runfile `"display as text "Started:   \`c(current_date)' \`c(current_time)'""' _n
+    file write runfile `"display as text "User:      \`c(username)'""' _n
+    file write runfile `"display as text "Stata:     `c(stata_version)' (`c(flavor)')""' _n
+    file write runfile `"display as result "{hline 78}""' _n
+    file write runfile `"display as text """' _n
     file write runfile "" _n
     file write runfile "/*******************************************************************************" _n
     file write runfile "SECTION 2: ENVIRONMENT ISOLATION (NBER Standard)" _n
@@ -478,11 +478,11 @@ program define projectinit_run
     file write runfile "*******************************************************************************/" _n
     file write runfile "" _n
     file write runfile "* Add local ado directory to search path (highest priority)" _n
-    file write runfile "adopath ++ \"\$ados\"" _n
+    file write runfile `"adopath ++ "\$ados""' _n
     file write runfile "" _n
     file write runfile "* Display adopath for verification" _n
     file write runfile "adopath" _n
-    file write runfile "display as text \"\"" _n
+    file write runfile `"display as text """' _n
     file write runfile "" _n
     file write runfile "/*******************************************************************************" _n
     file write runfile "SECTION 3: DEPENDENCY MANAGEMENT (Automated Installation)" _n
@@ -491,40 +491,40 @@ program define projectinit_run
     file write runfile "*******************************************************************************/" _n
     file write runfile "" _n
     file write runfile "* Core packages (customize as needed)" _n
-    file write runfile "local packages \"\"" _n
-    file write runfile "local packages \`packages' \"estout\"      // Table export" _n
-    file write runfile "local packages \`packages' \"reghdfe\"     // High-dimensional FE" _n
-    file write runfile "local packages \`packages' \"ftools\"      // Fast collapse/join" _n
-    file write runfile "local packages \`packages' \"grc1leg\"     // Combined graphs" _n
-    file write runfile "local packages \`packages' \"coefplot\"    // Coefficient plots" _n
+    file write runfile `"local packages """' _n
+    file write runfile `"local packages \`packages' "estout"      // Table export"' _n
+    file write runfile `"local packages \`packages' "reghdfe"     // High-dimensional FE"' _n
+    file write runfile `"local packages \`packages' "ftools"      // Fast collapse/join"' _n
+    file write runfile `"local packages \`packages' "grc1leg"     // Combined graphs"' _n
+    file write runfile `"local packages \`packages' "coefplot"    // Coefficient plots"' _n
     file write runfile "" _n
     file write runfile "* Latin American microdata packages (uncomment if needed)" _n
-    file write runfile "* local packages \`packages' \"usecasen\"    // Chile CASEN" _n
-    file write runfile "* local packages \`packages' \"enahodata\"   // Peru ENAHO" _n
-    file write runfile "* local packages \`packages' \"usebcrp\"     // Peru Central Bank" _n
-    file write runfile "* local packages \`packages' \"fixencoding\" // Character encoding" _n
-    file write runfile "* local packages \`packages' \"datadex\"     // Data exploration" _n
+    file write runfile `"* local packages \`packages' "usecasen"    // Chile CASEN"' _n
+    file write runfile `"* local packages \`packages' "enahodata"   // Peru ENAHO"' _n
+    file write runfile `"* local packages \`packages' "usebcrp"     // Peru Central Bank"' _n
+    file write runfile `"* local packages \`packages' "fixencoding" // Character encoding"' _n
+    file write runfile `"* local packages \`packages' "datadex"     // Data exploration"' _n
     file write runfile "" _n
     file write runfile "* Installation loop" _n
-    file write runfile "display as text \"Checking dependencies...\"" _n
+    file write runfile `"display as text "Checking dependencies...""' _n
     file write runfile "foreach pkg of local packages {" _n
     file write runfile "    capture which \`pkg'" _n
     file write runfile "    if _rc {" _n
-    file write runfile "        display as text \"  Installing \`pkg'...\"" _n
+    file write runfile `"        display as text "  Installing \`pkg'...""' _n
     file write runfile "        capture ssc install \`pkg', replace" _n
     file write runfile "        if _rc {" _n
-    file write runfile "            display as error \"  Warning: Could not install \`pkg'\"" _n
-    file write runfile "            display as error \"  Install manually or check internet connection\"" _n
+    file write runfile `"            display as error "  Warning: Could not install \`pkg'""' _n
+    file write runfile `"            display as error "  Install manually or check internet connection""' _n
     file write runfile "        }" _n
     file write runfile "        else {" _n
-    file write runfile "            display as result \"  ✓ Installed \`pkg'\"" _n
+    file write runfile `"            display as result "  ✓ Installed \`pkg'""' _n
     file write runfile "        }" _n
     file write runfile "    }" _n
     file write runfile "    else {" _n
-    file write runfile "        display as result \"  ✓ \`pkg' available\"" _n
+    file write runfile `"        display as result "  ✓ \`pkg' available""' _n
     file write runfile "    }" _n
     file write runfile "}" _n
-    file write runfile "display as text \"\"" _n
+    file write runfile `"display as text """' _n
     file write runfile "" _n
     file write runfile "/*******************************************************************************" _n
     file write runfile "SECTION 4: REPRODUCIBILITY SETTINGS" _n
@@ -545,19 +545,19 @@ program define projectinit_run
     file write runfile "*******************************************************************************/" _n
     file write runfile "" _n
     file write runfile "* Generate timestamp" _n
-    file write runfile "local datetime = subinstr(\"\`c(current_date)' \`c(current_time)'\", \" \", \"_\", .)" _n
-    file write runfile "local datetime = subinstr(\"\`datetime'\", \":\", \"-\", .)" _n
+    file write runfile `"local datetime = subinstr("\`c(current_date)' \`c(current_time)'", " ", "_", .)"' _n
+    file write runfile `"local datetime = subinstr("\`datetime'", ":", "-", .)"' _n
     file write runfile "" _n
     file write runfile "* Open master log" _n
-    file write runfile "log using \"\$logs/run_\`datetime'.log\", replace text name(masterlog)" _n
+    file write runfile `"log using "\$logs/run_\`datetime'.log", replace text name(masterlog)"' _n
     file write runfile "" _n
     file write runfile "* Log system information" _n
-    file write runfile "display \"Software: Stata \`c(stata_version)' (\`c(flavor)')\"" _n
-    file write runfile "display \"OS: \`c(os)' \`c(osdtl)'\"" _n
-    file write runfile "display \"Memory: \`c(memory)' bytes\"" _n
-    file write runfile "display \"Processors: \`c(processors)'\"" _n
-    file write runfile "display \"Seed: \`c(seed)'\"" _n
-    file write runfile "display \"\"" _n
+    file write runfile `"display "Software: Stata \`c(stata_version)' (\`c(flavor)')""' _n
+    file write runfile `"display "OS: \`c(os)' \`c(osdtl)'""' _n
+    file write runfile `"display "Memory: \`c(memory)' bytes""' _n
+    file write runfile `"display "Processors: \`c(processors)'""' _n
+    file write runfile `"display "Seed: \`c(seed)'""' _n
+    file write runfile `"display """' _n
     file write runfile "" _n
     file write runfile "/*******************************************************************************" _n
     file write runfile "SECTION 6: SEQUENTIAL EXECUTION" _n
@@ -566,45 +566,45 @@ program define projectinit_run
     file write runfile "*******************************************************************************/" _n
     file write runfile "" _n
     file write runfile "* Setup" _n
-    file write runfile "display as result \"Stage 1: Setup\"" _n
-    file write runfile "do \"\$scripts/00_setup.do\"" _n
+    file write runfile `"display as result "Stage 1: Setup""' _n
+    file write runfile `"do "\$scripts/00_setup.do""' _n
     file write runfile "" _n
     file write runfile "* Data Preparation" _n
-    file write runfile "display as result \"\"" _n
-    file write runfile "display as result \"Stage 2: Data Preparation\"" _n
-    file write runfile "* do \"\$dataprep/01_import.do\"" _n
-    file write runfile "* do \"\$dataprep/02_clean.do\"" _n
-    file write runfile "* do \"\$dataprep/03_merge.do\"" _n
-    file write runfile "* do \"\$dataprep/04_construct.do\"" _n
+    file write runfile `"display as result """' _n
+    file write runfile `"display as result "Stage 2: Data Preparation""' _n
+    file write runfile `"* do "\$dataprep/01_import.do""' _n
+    file write runfile `"* do "\$dataprep/02_clean.do""' _n
+    file write runfile `"* do "\$dataprep/03_merge.do""' _n
+    file write runfile `"* do "\$dataprep/04_construct.do""' _n
     file write runfile "" _n
     file write runfile "* Analysis" _n
-    file write runfile "display as result \"\"" _n
-    file write runfile "display as result \"Stage 3: Analysis\"" _n
-    file write runfile "* do \"\$analysis/01_descriptive.do\"" _n
-    file write runfile "* do \"\$analysis/02_main_results.do\"" _n
-    file write runfile "* do \"\$analysis/03_robustness.do\"" _n
-    file write runfile "* do \"\$analysis/04_heterogeneity.do\"" _n
+    file write runfile `"display as result """' _n
+    file write runfile `"display as result "Stage 3: Analysis""' _n
+    file write runfile `"* do "\$analysis/01_descriptive.do""' _n
+    file write runfile `"* do "\$analysis/02_main_results.do""' _n
+    file write runfile `"* do "\$analysis/03_robustness.do""' _n
+    file write runfile `"* do "\$analysis/04_heterogeneity.do""' _n
     file write runfile "" _n
     file write runfile "* Validation" _n
-    file write runfile "display as result \"\"" _n
-    file write runfile "display as result \"Stage 4: Validation\"" _n
-    file write runfile "* do \"\$validation/01_balance_checks.do\"" _n
-    file write runfile "* do \"\$validation/02_placebo_tests.do\"" _n
-    file write runfile "* do \"\$validation/03_data_quality.do\"" _n
+    file write runfile `"display as result """' _n
+    file write runfile `"display as result "Stage 4: Validation""' _n
+    file write runfile `"* do "\$validation/01_balance_checks.do""' _n
+    file write runfile `"* do "\$validation/02_placebo_tests.do""' _n
+    file write runfile `"* do "\$validation/03_data_quality.do""' _n
     file write runfile "" _n
     file write runfile "/*******************************************************************************" _n
     file write runfile "SECTION 7: COMPLETION" _n
     file write runfile "*******************************************************************************/" _n
     file write runfile "" _n
-    file write runfile "display \"\"" _n
-    file write runfile "display as result \"{hline 78}\"" _n
-    file write runfile "display as result \"PROJECT EXECUTION COMPLETED\"" _n
-    file write runfile "display as result \"{hline 78}\"" _n
-    file write runfile "display as text \"Finished: \`c(current_date)' \`c(current_time)'\"" _n
-    file write runfile "display as text \"Duration: TBD (implement timer if needed)\"" _n
-    file write runfile "display as text \"Log file: \$logs/run_\`datetime'.log\"" _n
-    file write runfile "display as result \"{hline 78}\"" _n
-    file write runfile "display \"\"" _n
+    file write runfile `"display """' _n
+    file write runfile `"display as result "{hline 78}""' _n
+    file write runfile `"display as result "PROJECT EXECUTION COMPLETED""' _n
+    file write runfile `"display as result "{hline 78}""' _n
+    file write runfile `"display as text "Finished: \`c(current_date)' \`c(current_time)'""' _n
+    file write runfile `"display as text "Duration: TBD (implement timer if needed)""' _n
+    file write runfile `"display as text "Log file: \$logs/run_\`datetime'.log""' _n
+    file write runfile `"display as result "{hline 78}""' _n
+    file write runfile `"display """' _n
     file write runfile "" _n
     file write runfile "log close masterlog" _n
     file write runfile "" _n
@@ -632,26 +632,26 @@ program define projectinit_setup
         file write setupfile "*******************************************************************************/" _n
         file write setupfile "" _n
         file write setupfile "* System information" _n
-        file write setupfile "display as text \"System diagnostics:\"" _n
-        file write setupfile "display as text \"  Stata version: \`c(stata_version)'\"" _n
-        file write setupfile "display as text \"  Flavor: \`c(flavor)'\"" _n
-        file write setupfile "display as text \"  OS: \`c(os)'\"" _n
-        file write setupfile "display as text \"  Processors: \`c(processors)'\"" _n
-        file write setupfile "display as text \"  Memory: \`c(memory)' bytes\"" _n
-        file write setupfile "display as text \"\"" _n
+        file write setupfile `"display as text "System diagnostics:""' _n
+        file write setupfile `"display as text "  Stata version: \`c(stata_version)'""' _n
+        file write setupfile `"display as text "  Flavor: \`c(flavor)'""' _n
+        file write setupfile `"display as text "  OS: \`c(os)'""' _n
+        file write setupfile `"display as text "  Processors: \`c(processors)'""' _n
+        file write setupfile `"display as text "  Memory: \`c(memory)' bytes""' _n
+        file write setupfile `"display as text """' _n
         file write setupfile "" _n
         file write setupfile "* Verify critical paths exist" _n
-        file write setupfile "local critical_paths \"\$data\" \"\$scripts\" \"\$outputs\"" _n
+        file write setupfile `"local critical_paths "\$data" "\$scripts" "\$outputs""' _n
         file write setupfile "foreach path of local critical_paths {" _n
-        file write setupfile "    capture confirm file \"\`path'\"" _n
+        file write setupfile `"    capture confirm file "\`path'""' _n
         file write setupfile "    if _rc {" _n
-        file write setupfile "        display as error \"Critical path not found: \`path'\"" _n
+        file write setupfile `"        display as error "Critical path not found: \`path'""' _n
         file write setupfile "        exit 601" _n
         file write setupfile "    }" _n
         file write setupfile "}" _n
         file write setupfile "" _n
-        file write setupfile "display as result \"✓ All critical paths verified\"" _n
-        file write setupfile "display as text \"\"" _n
+        file write setupfile `"display as result "✓ All critical paths verified""' _n
+        file write setupfile `"display as text """' _n
     }
     else {
         file write setupfile "/*******************************************************************************" _n
@@ -662,26 +662,26 @@ program define projectinit_setup
         file write setupfile "*******************************************************************************/" _n
         file write setupfile "" _n
         file write setupfile "* Información del sistema" _n
-        file write setupfile "display as text \"Diagnóstico del sistema:\"" _n
-        file write setupfile "display as text \"  Versión Stata: \`c(stata_version)'\"" _n
-        file write setupfile "display as text \"  Tipo: \`c(flavor)'\"" _n
-        file write setupfile "display as text \"  OS: \`c(os)'\"" _n
-        file write setupfile "display as text \"  Procesadores: \`c(processors)'\"" _n
-        file write setupfile "display as text \"  Memoria: \`c(memory)' bytes\"" _n
-        file write setupfile "display as text \"\"" _n
+        file write setupfile `"display as text "Diagnóstico del sistema:""' _n
+        file write setupfile `"display as text "  Versión Stata: \`c(stata_version)'""' _n
+        file write setupfile `"display as text "  Tipo: \`c(flavor)'""' _n
+        file write setupfile `"display as text "  OS: \`c(os)'""' _n
+        file write setupfile `"display as text "  Procesadores: \`c(processors)'""' _n
+        file write setupfile `"display as text "  Memoria: \`c(memory)' bytes""' _n
+        file write setupfile `"display as text """' _n
         file write setupfile "" _n
         file write setupfile "* Verificar que las rutas críticas existan" _n
-        file write setupfile "local critical_paths \"\$data\" \"\$scripts\" \"\$outputs\"" _n
+        file write setupfile `"local critical_paths "\$data" "\$scripts" "\$outputs""' _n
         file write setupfile "foreach path of local critical_paths {" _n
-        file write setupfile "    capture confirm file \"\`path'\"" _n
+        file write setupfile `"    capture confirm file "\`path'""' _n
         file write setupfile "    if _rc {" _n
-        file write setupfile "        display as error \"Ruta crítica no encontrada: \`path'\"" _n
+        file write setupfile `"        display as error "Ruta crítica no encontrada: \`path'""' _n
         file write setupfile "        exit 601" _n
         file write setupfile "    }" _n
         file write setupfile "}" _n
         file write setupfile "" _n
-        file write setupfile "display as result \"✓ Todas las rutas críticas verificadas\"" _n
-        file write setupfile "display as text \"\"" _n
+        file write setupfile `"display as result "✓ Todas las rutas críticas verificadas""' _n
+        file write setupfile `"display as text """' _n
     }
 
     file close setupfile
@@ -1003,7 +1003,7 @@ program define projectinit_readme_aea
         file write readmefile "" _n
         file write readmefile "3. **Navigate to project directory** in Stata" _n
         file write readmefile "   ```stata" _n
-        file write readmefile "   cd \"path/to/`projname'\"" _n
+        file write readmefile `"   cd "path/to/`projname'""' _n
         file write readmefile "   ```" _n
         file write readmefile "" _n
         file write readmefile "4. **Execute master script**" _n
@@ -1045,7 +1045,7 @@ program define projectinit_readme_aea
         file write readmefile "" _n
         file write readmefile "3. **Navegar al directorio del proyecto** en Stata" _n
         file write readmefile "   ```stata" _n
-        file write readmefile "   cd \"ruta/a/`projname'\"" _n
+        file write readmefile `"   cd "ruta/a/`projname'""' _n
         file write readmefile "   ```" _n
         file write readmefile "" _n
         file write readmefile "4. **Ejecutar script maestro**" _n
@@ -1067,7 +1067,7 @@ program define projectinit_readme_aea
     file write readmefile "If you use this code or data, please cite:" _n
     file write readmefile "" _n
     file write readmefile "```" _n
-    file write readmefile "`author' (`c(current_year)'). \"`projname'\"." _n
+    file write readmefile `"`author' (`c(current_year)'). "`projname'"."' _n
     file write readmefile "[Journal/Repository information]" _n
     file write readmefile "```" _n
     file write readmefile "" _n
