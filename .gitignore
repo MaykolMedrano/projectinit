@@ -1,0 +1,33 @@
+# Stata files
+*.log
+*.smcl
+*.dta~
+*.do~
+*.gph
+
+# Temporary files
+temp/
+*.tmp
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Test projects created during development
+test_projects/
+example_output/
+
+# Distribution
+dist/
+build/
