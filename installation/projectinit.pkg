@@ -1,25 +1,37 @@
 v 3
-d projectinit v2.1 - Professional Research Project Initializer (Enterprise)
+d projectinit - Professional Research Project Initializer
 d
 d projectinit creates professional, reproducible research project structures
-d following J-PAL (MIT), DIME (World Bank), and AEA Data Editor standards.
+d following international best practices from J-PAL (MIT), DIME (World Bank),
+d the AEA Data Editor, and NBER.
 d
-d Features:
-d - J-PAL/DIME folder structure with numbered directories
-d - LaTeX integration (standard and PUC templates)
-d - GitHub automation for version control
-d - Bilingual support (English/Spanish)
-d - Optimized for Chilean and Peruvian microdata (CASEN, ENAHO)
-d - One-click reproducibility infrastructure
-d - Dynamic paths using c(pwd) for portability
+d The command generates a complete project infrastructure including:
+d - Standardized folder structure (01_Data, 02_Scripts, 03_Outputs, etc.)
+d - Master execution script (run.do) with environment isolation
+d - Setup and configuration scripts (00_setup.do)
+d - Elite .gitignore for version control
+d - AEA-compliant README.md with replication instructions
+d - Optional LaTeX environment (PUC thesis or standard article)
+d - Optional GitHub repository initialization
+d - Optional AEA replication package (06_Replication/)
 d
-d Distribution-Date: 20260121
+d The project structure ensures reproducibility, portability, isolation,
+d comprehensive documentation, version control readiness, and compliance
+d with AEA, J-PAL, DIME, and NBER standards.
+d
+d KW: project management
+d KW: reproducible research
+d KW: workflow
+d KW: directory structure
+d KW: version control
+d
+d Requires: Stata version 14.0
+d
+d Distribution-Date: 20260122
 d License: MIT
 d
 d Author: Maykol Medrano
-d Email: mmedrano2@uc.cl
-d URL: https://github.com/MaykolMedrano/projectinit
+d Support: email mmedrano2@uc.cl
 d
 f projectinit.ado
 f projectinit.sthlp
-f helpers/projectinit_helpers.do

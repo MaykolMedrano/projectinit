@@ -1,8 +1,4 @@
 v 3
-d projectinit v2.1 - Professional Research Project Initializer (Enterprise)
-d Author: Maykol Medrano
-d Email: mmedrano2@uc.cl
-d URL: https://github.com/MaykolMedrano/projectinit
-d Distribution-Date: 20260121
-d
-p projectinit Professional Stata project structure initializer (J-PAL/DIME/AEA standards, LaTeX integration, GitHub automation)
+d Materials from Maykol Medrano, Instituto de Economía, Pontificia Universidad Católica de Chile
+d email mmedrano2@uc.cl
+p projectinit Professional Research Project Initializer
