@@ -1,4 +1,3 @@
-v 3
-d Materials from Maykol Medrano, Instituto de Economía, Pontificia Universidad Católica de Chile
-d email mmedrano2@uc.cl
-p projectinit Professional Research Project Initializer
+v 2
+d Maykol Medrano, Instituto de Economía UC (mmedrano2@uc.cl)
+p projectinit PROJECTINIT - Professional Stata Project Structure Initializer following J-PAL, DIME, and AEA standards.
