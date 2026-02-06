@@ -27,7 +27,7 @@
 ### Net Install (Recommended)
 
 ```stata
-net install projectinit, from("https://raw.githubusercontent.com/MaykolMedrano/projectinit/main/installation")
+net install projectinit, from("https://raw.githubusercontent.com/MaykolMedrano/projectinit/master/installation")
 ```
 
 ### Manual Installation
