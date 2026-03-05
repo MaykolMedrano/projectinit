@@ -4,10 +4,11 @@
   
 **Professional Stata Project Structure Initializer. One-click reproducible research infrastructure following J-PAL, DIME (World Bank), and AEA Data Editor standards.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Stata](https://img.shields.io/badge/Stata-14%2B-blue)](https://www.stata.com/)
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/MaykolMedrano/projectinit)
-  
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg?style=flat-square)](https://github.com/MaykolMedrano/projectinit)
+[![Stata](https://img.shields.io/badge/Stata-14%2B-blue?style=flat-square)](https://www.stata.com/)
+[![Tests passing](https://img.shields.io/github/actions/workflow/status/MaykolMedrano/projectinit/main.yml?branch=master&style=flat-square)](https://github.com/MaykolMedrano/projectinit/actions)
+[![Stars](https://img.shields.io/github/stars/MaykolMedrano/projectinit?style=flat-square&color=blue)](https://github.com/MaykolMedrano/projectinit/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 </div>
 
 ---
