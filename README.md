@@ -1,14 +1,14 @@
-﻿# projectinit
-
-**Professional Stata Project Structure Initializer**
+﻿<div align="center">
+  
+# projectinit
+  
+**Professional Stata Project Structure Initializer. One-click reproducible research infrastructure following J-PAL, DIME (World Bank), and AEA Data Editor standards.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Stata](https://img.shields.io/badge/Stata-14%2B-blue)](https://www.stata.com/)
 [![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/MaykolMedrano/projectinit)
-
-> One-click reproducible research infrastructure following **J-PAL**, **DIME (World Bank)**, and **AEA Data Editor** standards. Includes LaTeX integration, GitHub automation, and bilingual support.
-
-**Author**: Maykol Medrano | **Email**: mmedrano2@uc.cl | **GitHub**: [@MaykolMedrano](https://github.com/MaykolMedrano)
+  
+</div>
 
 ---
 
@@ -149,6 +149,7 @@ For detailed workflow and AEA compliance guidelines, run `help projectinit` in S
 ## Acknowledgments
 
 Built following best practices from:
+
 - **J-PAL (MIT)** — Abdul Latif Jameel Poverty Action Lab
 - **DIME (World Bank)** — Development Impact Evaluation
 - **AEA Data Editor** — American Economic Association
